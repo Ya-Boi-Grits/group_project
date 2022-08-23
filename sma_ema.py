@@ -26,6 +26,9 @@ df['date'] = pd.to_datetime(df['date']/1000, unit='s')
 # Sets the date column to the itterator instead of standard list index
 df.set_index('date', inplace=True)
 print(df)
+# this is all closing prices in returned as floats
+all_closing_prices = df.loc[:, 'Close']
+print(all_closing_prices)
 
 def find_sma(lst, y): # sma is needed for first calculation of ema
     x = y - 1
