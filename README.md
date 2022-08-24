@@ -4,6 +4,6 @@ That information is then plotted ona a graph with markers that can enter you int
 From there the test criteria as well as your gain/loss %  result would be saved into the database and given CRUD functionality.
 
 !! Shout out to the team !!
-Jong Lee wrote the backend algorithms and calculations needed for the bot to do it's thing
-Travis made an excellent front end complete with animations (apologies for the last minute refactoring butcher)
-Calvin somehow managed to turn an unexpected series of bugs and errors into a last minute functional app
+Jong Lee wrote the backend algorithms and calculations needed for the bot to do it's thing.
+Travis made an excellent front end complete with animations (apologies for the last minute refactoring butcher).
+Calvin somehow managed to turn an unexpected series of bugs and errors into a last minute functional app.
