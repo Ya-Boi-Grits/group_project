@@ -8,6 +8,10 @@ flask = "*"
 pymysql = "*"
 bcrypt = "*"
 flask-bcrypt = "*"
+requests = "*"
+pandas = "*"
+matplotlib = "*"
+mplfinance = "*"
 
 [dev-packages]
 
