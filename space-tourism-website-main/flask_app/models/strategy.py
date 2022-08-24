@@ -20,16 +20,12 @@ class Strategy:
         query = "SELECT * FROM strategies where id = %(id)s"
         return connectToMySQL(cls.db_name).query_db(query, data)
 
-    @classmethod(cls)
-    def pass_to_impact(  # formdata):
-        # parse form info
-        # pass into function
-        da_function(  # parsed data)
-        return da_function
-
     @ classmethod
-    def save_strategy(cls, data):
-        returned_info=Strategy.pass_to_impact
-        print(returned_info)
-        query="INSERT INTO strategies (indicator_one, indicator_two, ticker) VALUES (%(crpyto_ticker)s,%(period)s,%(second_period)s);"
+    def save_strategy(cls, data, impact_info):
+        indicator_one = impact_info['indicator_one']
+        indicator_two = impact_info['indicator_two']
+        ticker = impact_info['ticker']
+        api_key = 'LyK2ZaoUk6E_SFXXqZDFbau87U63LR2v'
+        da_function(api_key, ticker, indicator_one, indicator_two)
+        query = "INSERT INTO strategies (ticker, indicator_one, indicator_two, users_id) VALUES (%(ticker)s,%(indicator_one)s,%(indicator_two)s, %(id)s);"
         return connectToMySQL(cls.db_name).query_db(query, data)
