@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="stylesheet" href="static/index.css">
+    <script src="/static/Script.js" defer></script>
+    <title>Ya-Boi-Grits</title>
+</head>
+<body>
+    <p>edit trade page</p>
+    <div>
+        <div>
+            <header class="primary-header flex">
+                <div><a href="/dashboard"><img class="logo" id="logo" src="/static/assets/logo92.png" alt="logo"></a>
+                </div>
+                <div>
+                    <div class="uppercase">
+                        <h1>Edit your Trades {{ this_user.first_name }}</h1>
+                    </div>
+                </div>
+                <button class="mobile-nav-toggle"  aria-controls="primary-nav" aria-expanded="false"><span class="sr-only"></span></button>
+                <nav>
+                    <ul id="primary-nav" data-visible="false"class="primary-nav underline-indicators flex">
+                        <li ><a class="large-click uppercase text-white letter-spacing-2" href="/dashboard">
+                            <span aria-hidden="true">00</span>Dashboard</a></li>
+                        <li class="active"><a class="large-click uppercase text-white letter-spacing-2" href="/new">
+                            <span aria-hidden="true">01</span>Edit Strategy</a></li>
+                        <li ><a class="large-click uppercase text-white letter-spacing-2" href="/user/account">
+                        <span aria-hidden="true">02</span>Account</a></li>
+                        <li> <a class="large-click uppercase text-white letter-spacing-2" href="/logout">
+                            <span aria-hidden="true">03</span>Logout</a> </li>
+                </nav>
+            </header>
+        </div>
+    </div>
+    <p class="uppercase margin2">Jinja stragegy being edited</p>
+    <div class="container flex">
+        <!-- Testing Pair -->
+        <div class="dropdown" data-dropdown>
+            <button class="link uppercase" data-dropdown-button>Testing Pair</button>
+            <div class="dropdown-menu">
+                <form class="pair-form" action="#">
+                    <label for="#">BTC/USDT</label>
+                    <input type="#" name="#" id="#">
+                    <button class="btn-primary link uppercase" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <!-- first Indicator -->
+        <div class="dropdown" data-dropdown>
+            <button class="link uppercase" data-dropdown-button>Indicator 1</button>
+            <div class="dropdown-menu information-grid">
+                <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
+                <form class="pair-form" action="#">
+                    <label for="#"></label>
+                    <input type="number" min="1" max="240">
+                    <button class="btn-primary link uppercase" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <!-- second indicator -->
+        <div class="dropdown" data-dropdown>
+            <button class="link uppercase" data-dropdown-button>Indicator 2</button>
+            <div class="dropdown-menu information-grid">
+                <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
+                <form class="pair-form" action="#">
+                    <label for="#"></label>
+                    <input type="number" min="1" max="240">
+                    <button class="btn-primary link uppercase" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- test Strategy -->
+    <div class="container margin2">
+        <!-- <div>
+            <label class="uppercase text-white letter-spacing-2">Strategy Test Results:</label>
+            <div>
+                <textarea name=""></textarea>
+            </div>
+        </div> -->
+        <div class="uppercase text-white letter-spacing-2 margin flex">
+            <button class="btn-primary link uppercase" type="submit">Submit Edit</button>
+        </div>
+    </div>
+</body>

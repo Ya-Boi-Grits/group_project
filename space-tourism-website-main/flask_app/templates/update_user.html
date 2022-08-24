@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="stylesheet" href="/static/index.css">
+    <script src="/static/Script.js" defer></script>
+    <title>Ya-Boi-Grits</title>
+</head>
+<body>
+    <p>update user</p>
+    <header class="primary-header flex">
+        <div><a href="/dashboard"><img class="logo" id="logo" src="/static/assets/logo92.png" alt="logo"></a>
+        </div>
+        <h1 class="uppercase text-white letter-spacing-2">Update User Info</h1>
+        <button class="mobile-nav-toggle"  aria-controls="primary-nav" aria-expanded="false"><span class="sr-only"></span></button>
+        <nav>
+            <ul id="primary-nav" data-visible="false"class="primary-nav underline-indicators flex">
+                <li ><a class="large-click uppercase text-white letter-spacing-2" href="/dashboard">
+                    <span aria-hidden="true">00</span>Dashboard</a></li>
+                <li><a class="large-click uppercase text-white letter-spacing-2" href="/new">
+                    <span aria-hidden="true">01</span>Edit Strategy</a></li>
+                <li class="active"><a class="large-click uppercase text-white letter-spacing-2" href="/user/account">
+                <span aria-hidden="true">02</span>Account</a></li>
+                <li> <a class="large-click uppercase text-white letter-spacing-2" href="/logout">
+                    <span aria-hidden="true">03</span>Logout</a> </li>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <form action="/udpate_user" method="POST">
+            {% with messages = get_flashed_messages(category_filter=["register"]) %}     <!-- declare a variable called messages -->
+                {% if messages %}                            <!-- check if there are any messages -->
+                    {% for message in messages %}            <!-- loop through the messages -->
+                        <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <p>First Name</p>
+            <input name = "first_name" type="text">
+            <p>last name</p>
+            <input name = "last_name" type="text">
+            <p>email</p>
+            <input name = "email" type="text">
+            <div class="row my-1">
+                <div class="offset-1">
+                    <button class="btn link btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
