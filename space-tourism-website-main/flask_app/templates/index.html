@@ -89,5 +89,17 @@
         <button class="btn-primary link uppercase " type="submit">Test</button>
     </div>
   </div>
+      <div class="row">
+    <table class="table">
+        <tbody>
+            {%for this_strategy in all_strategies%}
+            <tr>
+                <td><a href="/show/{{this_strategy.id}}">{{this_strategy.name}}</a>
+                <td>Added by: {{this_strategy.user.first_name}} {{this_strategy.user.last_name}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
