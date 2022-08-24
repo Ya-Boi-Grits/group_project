@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
     <link rel="stylesheet" href="static/index.css">
     <script src="/static/Script.js" defer></script>
-    <title>Ya-Boi-Grits</title>
+    <title>Edit</title>
 </head>
 <body>
     <p>edit trade page</p>
@@ -18,7 +18,7 @@
                 </div>
                 <div>
                     <div class="uppercase">
-                        <h1>Edit your Trades {{ this_user.first_name }}</h1>
+                        <h1>Edit your strategies</h1>
                     </div>
                 </div>
                 <button class="mobile-nav-toggle"  aria-controls="primary-nav" aria-expanded="false"><span class="sr-only"></span></button>
@@ -35,55 +35,23 @@
                 </nav>
             </header>
         </div>
-    </div>
-    <p class="uppercase margin2">Jinja stragegy being edited</p>
-    <div class="container flex">
-        <!-- Testing Pair -->
-        <div class="dropdown" data-dropdown>
-            <button class="link uppercase" data-dropdown-button>Testing Pair</button>
-            <div class="dropdown-menu">
-                <form class="pair-form" action="#">
-                    <label for="#">BTC/USDT</label>
-                    <input type="#" name="#" id="#">
-                    <button class="btn-primary link uppercase" type="submit">Submit</button>
-                </form>
-            </div>
+        <div class="container flex">
+            <form action="/strategies/{{this_strategy.id}}/edit_in_db" method="POST">
+                <div class="pair-form">
+                    <label for="testing pair">Testing Pair</label>
+                    <input type="text" name="ticker" id="ticker">
+                </div>
+                <div class="pair-form">
+                    <label for="indicator_one">Indicator 1</label>
+                    <input type="number" min="1" max="240" name="indicator_one">
+                </div>
+                <div class="pair-form">
+                    <label for="indicator_two">indicator 2</label>
+                    <input type="number" min="1" max="240" name="indicator_two">
+                </div>
+                <div class="uppercase text-white letter-spacing-2 flex ">
+                    <input type="submit" value="Confirm Edit">
+                </div>
+            </form>
         </div>
-        <!-- first Indicator -->
-        <div class="dropdown" data-dropdown>
-            <button class="link uppercase" data-dropdown-button>Indicator 1</button>
-            <div class="dropdown-menu information-grid">
-                <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
-                <form class="pair-form" action="#">
-                    <label for="#"></label>
-                    <input type="number" min="1" max="240">
-                    <button class="btn-primary link uppercase" type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-        <!-- second indicator -->
-        <div class="dropdown" data-dropdown>
-            <button class="link uppercase" data-dropdown-button>Indicator 2</button>
-            <div class="dropdown-menu information-grid">
-                <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
-                <form class="pair-form" action="#">
-                    <label for="#"></label>
-                    <input type="number" min="1" max="240">
-                    <button class="btn-primary link uppercase" type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- test Strategy -->
-    <div class="container margin2">
-        <!-- <div>
-            <label class="uppercase text-white letter-spacing-2">Strategy Test Results:</label>
-            <div>
-                <textarea name=""></textarea>
-            </div>
-        </div> -->
-        <div class="uppercase text-white letter-spacing-2 margin flex">
-            <button class="btn-primary link uppercase" type="submit">Submit Edit</button>
-        </div>
-    </div>
 </body>

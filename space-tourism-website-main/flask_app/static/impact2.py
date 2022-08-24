@@ -1,22 +1,23 @@
 from cmath import nan
 from multiprocessing.sharedctypes import Value
+from xml.etree.ElementTree import tostring
 import requests
 import pandas as pd
-import mplfinance as mpf
+# import mplfinance as mpf
 import numpy as np
 #import pandas_ta as ta
 #import matplotlib.pyplot as plt
 #import plotly.graph_objects as pgo
 api_key = 'LyK2ZaoUk6E_SFXXqZDFbau87U63LR2v'
-ticker = 'BTCUD'
-indicator_one = 20
-indicator_two = 30
-
+# These are the variables the user will be able to alter
+crypto_ticker = 'BTCUSD'
+limit = '1000'  # this may never be used
+period = 12
+second_period = 50
 
 request = requests.get(
-    f'https://api.polygon.io/v2/aggs/ticker/X:{ticker}/range/1/day/2022-01-01/2022-06-30?adjusted=true&sort=asc&limit=1000&apiKey={api_key}')
+    f'https://api.polygon.io/v2/aggs/ticker/X:{crypto_ticker}/range/1/day/2022-01-01/2022-06-30?adjusted=true&sort=asc&limit={limit}&apiKey={api_key}')
 response = request.json()
-print(response)
 # Parses through data and organizes it in a pandas dataframe
 df = pd.DataFrame(response['results'])
 df.columns = ['Volume', 'Weighted Avg', 'Open',
@@ -28,8 +29,7 @@ df.set_index('date', inplace=True)
 # this is all closing prices in returned as floats
 all_closing_prices = df.loc[:, 'Close']
 all_closing_prices_list = all_closing_prices.values.tolist()
-print(df)
-print(all_closing_prices_list)
+# print(all_closing_prices_list)
 
 
 def find_sma(lst, y):  # sma is needed for first calculation of ema
@@ -44,26 +44,34 @@ def find_sma(lst, y):  # sma is needed for first calculation of ema
     return first_sma
 
 
-f_sma = find_sma(all_closing_prices_list, indicator_one)
+f_sma = find_sma(all_closing_prices_list, period)
 
 
-def find_multiplier(indicator_one):
-    multiplier = 2 / (indicator_one + 1)
+# test_sma = find_sma(all_closing_prices, period)
+
+
+# EMA = Closing price x multiplier + EMA (previous day) x (1-multiplier)
+
+# multiplier = [2 ÷ (period + 1)]
+
+def find_multiplier(period):
+    multiplier = 2 / (period + 1)
     return multiplier
 
 
-mult = find_multiplier(indicator_one)
-
-# test_muiltiplier = find_multiplier(indicator_one)
-
-# input closes of the price from df, sma from earlier function, mulitplier from earlier function and the indicator_one or second ema setting
+mult = find_multiplier(period)
 
 
-def find_ema(lst, sma, multiplier, indicator_one):
+# test_muiltiplier = find_multiplier(period)
+
+# input closes of the price from df, sma from earlier function, mulitplier from earlier function and the period or second ema setting
+
+
+def find_ema(lst, sma, multiplier, period):
     ema_lst = []
     num = 1
 
-    while num < indicator_one:
+    while num < period:
         ema_lst.append(np.NaN)
         num += 1
 
@@ -77,16 +85,21 @@ def find_ema(lst, sma, multiplier, indicator_one):
     return ema_lst
 
 
-lst_of_ema = find_ema(all_closing_prices_list, f_sma, mult, indicator_one)
+lst_of_ema = find_ema(all_closing_prices_list, f_sma, mult, period)
+
+# print("number of closing prices:", len(all_closing_prices_list))
+
+# print("number of ema prices:", len(lst_of_ema))
 
 df['EMA1'] = lst_of_ema
 
-s_sma = find_sma(all_closing_prices_list, indicator_two)
 
-s_mult = find_multiplier(indicator_two)
+s_sma = find_sma(all_closing_prices_list, second_period)
+
+s_mult = find_multiplier(second_period)
 
 second_ema_lst = find_ema(all_closing_prices_list,
-                          s_sma, s_mult, indicator_two)
+                          s_sma, s_mult, second_period)
 
 df['EMA2'] = second_ema_lst
 
@@ -97,6 +110,7 @@ df['IS NEG/POS'] = df['IS NEG/POS'].fillna(0)
 lst = []
 compare = 'neg'
 in_trade = False
+
 
 for time, value in df["IS NEG/POS"].items():
     if value == 0:
@@ -138,12 +152,37 @@ for date, value in df['Buy/Sell'].iteritems():
         profit_loss = profit_loss + xy
 
 
-def plot_ema(df, ticker):
-    both_emas = df[['EMA1', 'EMA2']]
-    ema_plots = mpf.make_addplot(both_emas)
-    # This code actually creates the graph and adds desired indicators.
-    mpf.plot(df, type='candle', volume=True, addplot=(ema_plots),
-             title=f'{ticker} - January to June [2022]', ylabel='Price')
+print(profit_loss)
+
+# def plot_ema(df, crypto_ticker):
+#     # Creates a custom ema indicator to plot of graph
+#     # ema = mpf.make_addplot(df['Close'].ewm(
+#     #     span=period, adjust=False).mean(), color='g')
+#     both_emas = df[['EMA1', 'EMA2']]
+#     ema_plots = mpf.make_addplot(both_emas)
+#     # This code actually creates the graph and adds desired indicators. The THICK GREEN line is the ema.
+#     return mpf.plot(df, type='candle', volume=True, addplot=(ema_plots), title=f'{crypto_ticker} - January to June [2022]', ylabel='Price')
 
 
-plot_ema(df, ticker)
+# plot_ema(df, crypto_ticker)
+
+# # def avg_high(df):
+#     all_highs = 0
+#     for each_high in df['High']:
+#         all_highs += each_high
+#     average_high = all_highs / 31
+#     print(average_high)
+#     return average_high
+
+
+# def avg_low(df):
+#     all_lows = 0
+#     for each_low in df['Low']:
+#         all_lows += each_low
+#     average_low = all_lows / 31
+#     print(average_low)
+#     return average_low
+
+
+# take_profit = avg_high(df)
+# take_loss = avg_low(df)

@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="static/index.css">
   <script src="/static/Script.js" defer></script>
 
-  <title>Ya-Boi-Grits</title>
+  <title>Dashboard</title>
 </head>
 <body>
   <p>Index</p>
@@ -32,80 +32,73 @@
       </nav>
   </header>
   <div class="container flex">
-    <!-- testing pair -->
-    <!-- this should be a dropdown that contains 2 selectables the backend can read as strings:
-    BTCUSD
-    ETHUSD -->
-    <div class="dropdown" data-dropdown>
-      <button class="link uppercase" data-dropdown-button>Testing Pair</button>
-      <div class="dropdown-menu">
-        <form class="pair-form" action="#">
-          <label for="#">BTC/USDT</label>
-            <input type="#" name="#" id="#">
-            <button class="btn-primary link uppercase" type="submit">Submit</button>
-        </form>
+    <form action="/strategies/add_to_db" method="POST">
+      <!-- <div class="dropdown" data-dropdown>
+        <button class="link uppercase" data-dropdown-button>Testing Pair</button>
+        <div class="dropdown-menu"> -->
+          <div class="pair-form">
+            <label for="testing pair">Testing Pair</label>
+            <input type="text" name="ticker" id="ticker">
+          </div>
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- first indicator -->
+      <!-- <div class="dropdown" data-dropdown>
+          <button class="link uppercase" data-dropdown-button>Indicator 1</button>
+          <div class="dropdown-menu information-grid">
+            <a class="uppercase text-white letter-spacing-2" href="#">EMA</a> -->
+            <div class="pair-form">
+                <label for="indicator_one">Indicator 1</label>
+                <input type="number" min="1" max="240" name="indicator_one">
+            </div>
+          <!-- </div> -->
       </div>
-    </div>
-    <!-- first indicator -->
-    <!-- this should allow you to enter a number from 0 to 120. Dont worry about backend validations -->
-    <div class="dropdown" data-dropdown>
-        <button class="link uppercase" data-dropdown-button>Indicator 1</button>
-        <div class="dropdown-menu information-grid">
-          <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
-          <form class="pair-form" action="#">
-              <label for="#"></label>
-              <input type="number" min="1" max="240">
-              <button class="btn-primary link uppercase" type="submit">Submit</button>
-          </form>
-        </div>
-    </div>
-    <!-- second indicator -->
-    <!-- this should allow you to enter a number from 121 to 240. Dont worry about backend validations -->
-    <div class="dropdown" data-dropdown>
-        <button class="link uppercase" data-dropdown-button>Indicator 2</button>
-        <div class="dropdown-menu information-grid">
-            <a class="uppercase text-white letter-spacing-2" href="#">EMA</a>
-            <form class="pair-form" action="#">
-                <label for="#"></label>
-                <input type="number" min="1" max="240">
-                <button class="btn-primary link uppercase" type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
+      <!-- second indicator -->
+      <!-- <div class="dropdown" data-dropdown>
+          <button class="link uppercase" data-dropdown-button>Indicator 2</button>
+          <div class="dropdown-menu information-grid">
+              <a class="uppercase text-white letter-spacing-2" href="#">EMA</a> -->
+              <div class="pair-form">
+                  <label for="indicator_two">indicator_two</label>
+                  <input type="number" min="1" max="240" name="indicator_two">
+              </div>
+          <!-- </div> -->
+      </div>
+      <div class="uppercase text-white letter-spacing-2 flex ">
+        <input type="submit" value="Save Test">
+      </div>
+    </form>
+    <!-- testing pair -->
+    <div class="container-fluid">
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Strategy Name</td>
+            <td>Added By</td>
+            <td>Ticker</td>
+            <td>Indicator 1</td>
+            <td>Indicator 2</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+            {% for this_strategy in all_stategies %}
+            <tr>
+                <td>This Strategy</td>
+                <td>{{this_user.first_name}}</td>
+                <td>{{this_strategy.ticker}}</td>
+                <td>{{this_strategy.indicator_one}}</td>
+                <td>{{this_strategy.indicator_two}}</td>
+                <td><a href="/edit/{{this_strategy.id}}">Edit</a> <a href="/{{this_strategy.id}}/delete">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
   </div>
 
-  <div class="container">
-    <div class="edit">
-      <!-- edit Strategy -->
-      <!-- This box will use jinja syntax to list all strategies in the db linked to this user -->
-      <a class="uppercase text-white letter-spacing-2" href="#">Strategy <button class="btn-primary link uppercase">Edit</button><button class="btn-primary link uppercase">Delete</button></a>
-            <a class="uppercase text-white letter-spacing-2" href="#">Strategy <button class="btn-primary link uppercase">Edit</button><button class="btn-primary link uppercase">Delete</button></a>
-            <a class="uppercase text-white letter-spacing-2" href="#">Strategy <button class="btn-primary link uppercase">Edit</button><button class="btn-primary link uppercase">Delete</button></a>
-            <a class="uppercase text-white letter-spacing-2" href="#">Strategy <button class="btn-primary link uppercase">Edit</button><button class="btn-primary link uppercase">Delete</button></a>
-            <a class="uppercase text-white letter-spacing-2" href="#">Strategy <button class="btn-primary link uppercase">Edit</button><button class="btn-primary link uppercase">Delete</button></a>
-    </div>
-    <div class="margin">
-      <!-- test Strategy -->
-        <label class="uppercase text-white letter-spacing-2">Strategy Test Results:</label>
-        <div>
-            <textarea name="special_instructions"></textarea>
-        </div>
-    </div>
-    <div class="uppercase text-white letter-spacing-2 flex ">
-        <button class="btn-primary link uppercase " type="submit">Test</button>
-    </div>
-  </div>
-      <div class="row">
-    <table class="table">
-        <tbody>
-            {%for this_strategy in all_strategies%}
-            <tr>
-                <td><a href="/show/{{this_strategy.id}}">{{this_strategy.name}}</a>
-                <td>Added by: {{this_strategy.user.first_name}} {{this_strategy.user.last_name}}</td>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
-</div>
+
+
+
+
 </body>
 </html>

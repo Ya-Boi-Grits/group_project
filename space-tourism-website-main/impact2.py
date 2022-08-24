@@ -1,5 +1,7 @@
 from cmath import nan
 from multiprocessing.sharedctypes import Value
+from xml.etree.ElementTree import tostring
+from flask_app.models.strategy import Strategy
 import requests
 import pandas as pd
 import mplfinance as mpf
@@ -16,7 +18,6 @@ indicator_two = 30
 request = requests.get(
     f'https://api.polygon.io/v2/aggs/ticker/X:{ticker}/range/1/day/2022-01-01/2022-06-30?adjusted=true&sort=asc&limit=1000&apiKey={api_key}')
 response = request.json()
-print(response)
 # Parses through data and organizes it in a pandas dataframe
 df = pd.DataFrame(response['results'])
 df.columns = ['Volume', 'Weighted Avg', 'Open',
@@ -28,8 +29,7 @@ df.set_index('date', inplace=True)
 # this is all closing prices in returned as floats
 all_closing_prices = df.loc[:, 'Close']
 all_closing_prices_list = all_closing_prices.values.tolist()
-print(df)
-print(all_closing_prices_list)
+# print(all_closing_prices_list)
 
 
 def find_sma(lst, y):  # sma is needed for first calculation of ema
@@ -139,11 +139,13 @@ for date, value in df['Buy/Sell'].iteritems():
 
 
 def plot_ema(df, ticker):
+    # Creates a custom ema indicator to plot of graph
+    # ema = mpf.make_addplot(df['Close'].ewm(
+    #     span=indicator_one, adjust=False).mean(), color='g')
     both_emas = df[['EMA1', 'EMA2']]
     ema_plots = mpf.make_addplot(both_emas)
-    # This code actually creates the graph and adds desired indicators.
-    mpf.plot(df, type='candle', volume=True, addplot=(ema_plots),
-             title=f'{ticker} - January to June [2022]', ylabel='Price')
+    # This code actually creates the graph and adds desired indicators. The THICK GREEN line is the ema.
+    return mpf.plot(df, type='candle', volume=True, addplot=(ema_plots), title=f'{ticker} - January to June [2022]', ylabel='Price')
 
 
 plot_ema(df, ticker)

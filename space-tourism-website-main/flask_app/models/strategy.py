@@ -1,5 +1,6 @@
+from winreg import QueryInfoKey
 from flask_app.config.mysqlconnection import connectToMySQL
-from impact2 import da_function
+# from impact2 import da_function
 
 
 class Strategy:
@@ -17,15 +18,37 @@ class Strategy:
 
     @classmethod
     def get_strategies_by_user(cls, data):
+        query = "SELECT * FROM strategies where users_id = %(id)s"
+        results = connectToMySQL(cls.db_name).query_db(query, data)
+        return results
+
+    @classmethod
+    def get_strategies_by_strategy_id(cls, data):
         query = "SELECT * FROM strategies where id = %(id)s"
+        results = connectToMySQL(cls.db_name).query_db(query, data)
+        return results
+
+    @classmethod
+    def update_strategy_in_db(cls, data):
+        query = "UPDATE strategies SET ticker = %(ticker)s,indicator_one = %(indicator_one)s,indicator_two = %(indicator_two)s WHERE id = %(id)s"
         return connectToMySQL(cls.db_name).query_db(query, data)
 
-    @ classmethod
-    def save_strategy(cls, data, impact_info):
-        indicator_one = impact_info['indicator_one']
-        indicator_two = impact_info['indicator_two']
-        ticker = impact_info['ticker']
-        api_key = 'LyK2ZaoUk6E_SFXXqZDFbau87U63LR2v'
-        da_function(api_key, ticker, indicator_one, indicator_two)
+    @classmethod
+    def select_all_strategies(cls):
+        query = "SELECT * FROM strategies;"
+        results = connectToMySQL(cls.db_name).query_db(query)
+        print(results)
+        if len(results) == 0:
+            return None
+        else:
+            return results
+
+    @classmethod
+    def save_strategy(cls, data):
         query = "INSERT INTO strategies (ticker, indicator_one, indicator_two, users_id) VALUES (%(ticker)s,%(indicator_one)s,%(indicator_two)s, %(id)s);"
+        return connectToMySQL(cls.db_name).query_db(query, data)
+
+    @classmethod
+    def delete_strategy_by_id(cls, data):
+        query = "DELETE FROM strategies WHERE id = %(id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
