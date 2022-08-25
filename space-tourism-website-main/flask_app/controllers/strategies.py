@@ -55,10 +55,8 @@ def delete_strategy(id):
 def add_strategy_to_db():
     if "user_id" not in session:
         return redirect('/')
-    # if validations fail
-    # if not strategy.Strategy.validate_strategy(request.form):
-    #     return redirect('/new')  # send back to the form
-        # add strategy to the db via the model
+    if not strategy.Strategy.validate_update_strategy(request.form):
+        return redirect('/dashboard')  # send back to the form
     impact_info = {
         'indicator_one': request.form['indicator_one'],
         'indicator_two': request.form['indicator_two'],
@@ -75,15 +73,13 @@ def add_strategy_to_db():
 def process_edit_strategy_in_db(id):
     if "user_id" not in session:
         return redirect('/')
-    # if validations fail
-    # if not strategy.Strategy.validate_strategy(request.form):
-    #     return redirect(f'/strategies/{id}/edit')  # send back to the form
-        # edit the strategy to the db via the model
+    if strategy.Strategy.update_strategy_in_db(request.form) == False:
+        return redirect(f'/strategies/{id}/edit')  # send back to the form
     data = {
+        "id": id,
         'indicator_one': request.form['indicator_one'],
         'indicator_two': request.form['indicator_two'],
-        'ticker': request.form['ticker'],
-        "id": id
+        'ticker': request.form['ticker']
     }
     strategy.Strategy.update_strategy_in_db(data)
     return redirect("/dashboard")

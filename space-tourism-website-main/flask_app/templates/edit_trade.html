@@ -36,18 +36,25 @@
             </header>
         </div>
         <div class="container flex">
+            {% with messages =
+            get_flashed_messages(category_filter=["strategy"]) %}<!-- declare a variable called messages -->
+            {% if messages %}<!-- check if there are any messages -->
+            {% for message in messages %}<!-- loop through the messages -->
+            <p class="text-danger text-center">{{message}}</p>
+            <!-- display each message in a paragraph tag -->
+            {% endfor %} {% endif %} {% endwith %}
             <form action="/strategies/{{this_strategy.id}}/edit_in_db" method="POST">
                 <div class="pair-form">
                     <label for="testing pair">Testing Pair</label>
-                    <input type="text" name="ticker" id="ticker">
+                    <input type="text" name="ticker" id="ticker" value="{{this_strategy.ticker}}">
                 </div>
                 <div class="pair-form">
                     <label for="indicator_one">Indicator 1</label>
-                    <input type="number" min="1" max="240" name="indicator_one">
+                    <input type="number" min="1" max="240" name="indicator_one" value="{{this_strategy.indicator_one}}">
                 </div>
                 <div class="pair-form">
                     <label for="indicator_two">indicator 2</label>
-                    <input type="number" min="1" max="240" name="indicator_two">
+                    <input type="number" min="1" max="240" name="indicator_two" value="{{this_strategy.indicator_two}}">
                 </div>
                 <div class="uppercase text-white letter-spacing-2 flex ">
                     <input type="submit" value="Confirm Edit">

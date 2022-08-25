@@ -1,5 +1,7 @@
 from winreg import QueryInfoKey
+from wsgiref import validate
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
 # from impact2 import da_function
 
 
@@ -13,8 +15,7 @@ class Strategy:
         self.ticker = data["ticker"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        # Empty list holding many items for this user, e.g. Recipes; add as many attributes as needed
-        self.users_id = []
+        self.users_id = None
 
     @classmethod
     def get_strategies_by_user(cls, data):
@@ -26,7 +27,7 @@ class Strategy:
     def get_strategies_by_strategy_id(cls, data):
         query = "SELECT * FROM strategies where id = %(id)s"
         results = connectToMySQL(cls.db_name).query_db(query, data)
-        return results
+        return results[0]
 
     @classmethod
     def update_strategy_in_db(cls, data):
@@ -52,3 +53,14 @@ class Strategy:
     def delete_strategy_by_id(cls, data):
         query = "DELETE FROM strategies WHERE id = %(id)s;"
         return connectToMySQL(cls.db_name).query_db(query, data)
+
+    @staticmethod
+    def validate_update_strategy(form_data):
+        validate_entry = True
+        if len(form_data['ticker']) > 7:
+            validate_entry = False
+            flash('Strategy ticker is too long', 'strategy')
+        if len(form_data['indicator_one']) > 120:
+            validate_entry = False
+            flash('First indicator must be 120 or less', 'strategy')
+        return validate_entry
