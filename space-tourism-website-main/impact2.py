@@ -9,7 +9,7 @@ import numpy as np
 #import pandas_ta as ta
 #import matplotlib.pyplot as plt
 #import plotly.graph_objects as pgo
-api_key = 'LyK2ZaoUk6E_SFXXqZDFbau87U63LR2v'
+api_key = ''
 ticker = 'BTCUD'
 indicator_one = 20
 indicator_two = 30
